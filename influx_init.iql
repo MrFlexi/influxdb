@@ -1,0 +1,13 @@
+CREATE DATABASE "telegraf"
+CREATE DATABASE "traefik"
+CREATE DATABASE "mqtt"
+CREATE USER telegraf WITH PASSWORD 'pw_telegraf'
+GRANT ALL ON telegraf TO telegraf
+CREATE USER traefik WITH PASSWORD 'pw_traefik'
+GRANT ALL ON traefik TO traefik
+CREATE USER mqtt WITH PASSWORD 'pw_mqtt'
+GRANT ALL ON mqtt TO mqtt
+CREATE USER grafana WITH PASSWORD 'pw_grafana'
+GRANT READ ON telegraf TO grafana
+GRANT READ ON traefik TO grafana
+GRANT READ ON mqtt TO grafana

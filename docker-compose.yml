@@ -1,0 +1,26 @@
+version: "3.6"
+
+services:
+
+    influxdb:
+        image: influxdb:1.8
+        restart: unless-stopped
+        networks:
+            - webgateway        
+        env_file:
+            - "influxdb.env"                  
+        volumes:
+            - ./data/influxdb:/var/lib/influxdb
+            - ./influx_init.iql:/docker-entrypoint-initdb.d/influx_init.iql
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.influxdb.rule=Host(`influxdb.psiox.de`) || Host(`influxdb.localhost`)"
+            - "traefik.http.routers.influxdb.entrypoints=websecure"
+            - "traefik.http.routers.influxdb.tls"
+            - "traefik.http.routers.influxdb.tls.certresolver=le"      
+            - "traefik.http.routers.influxdb.tls.domains[0].main=influxdb.psiox.de"
+
+networks:
+    webgateway:
+        external: true
+
